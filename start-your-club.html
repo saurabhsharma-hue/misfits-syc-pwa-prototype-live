@@ -6,7 +6,8 @@
   <title>Start Your Club | Misfits</title>
   <script>
     (function () {
-      var target = '/start-your-club' + window.location.search + window.location.hash;
+      var basePath = window.location.pathname.replace(/\/start-your-club\.html?$/, '');
+      var target = basePath + '/start-your-club/' + window.location.search + window.location.hash;
       window.location.replace(target);
     })();
   </script>

@@ -1,11 +1,11 @@
-const CACHE_NAME = "misfits-syc-pwa-v3";
+const CACHE_NAME = "misfits-syc-pwa-v4";
 const BASE_PATH = new URL(self.registration.scope).pathname.replace(/\/$/, "");
 const withBase = (path) => `${BASE_PATH}${path.startsWith("/") ? path : `/${path}`}`;
 
 const SHELL_ASSETS = [
   "/",
-  "/host-entry",
-  "/start-your-club",
+  "/host-entry/",
+  "/start-your-club/",
   "/manifest.json",
   "/icon.png",
   "/app_icon.png",
@@ -488,7 +488,7 @@ self.addEventListener("fetch", (event) => {
 
   if (event.request.mode === "navigate") {
     event.respondWith(
-      fetch(event.request).catch(() => caches.match(withBase("/")) || caches.match(withBase("/start-your-club")))
+      fetch(event.request).catch(() => caches.match(withBase("/")) || caches.match(withBase("/start-your-club/")))
     );
     return;
   }
