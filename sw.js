@@ -1,4 +1,4 @@
-const CACHE_NAME = "misfits-syc-pwa-v4";
+const CACHE_NAME = "misfits-syc-pwa-v5";
 const BASE_PATH = new URL(self.registration.scope).pathname.replace(/\/$/, "");
 const withBase = (path) => `${BASE_PATH}${path.startsWith("/") ? path : `/${path}`}`;
 
