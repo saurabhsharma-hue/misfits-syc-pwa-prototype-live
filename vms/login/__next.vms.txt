@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[505,[],""]
+3:I[6589,[],""]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/css/e1e8cd22a1ee13a7.css","style"]
+0:{"buildId":"XZQiqm2j0spWchnJX3CP3","rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/misfits-syc-pwa-prototype-live/_next/static/css/e1e8cd22a1ee13a7.css","precedence":"next"}]],["$","div",null,{"className":"vms-container","children":["$","div",null,{"className":"vms-screen","children":["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]}]}]]}],"loading":null,"isPartial":false}

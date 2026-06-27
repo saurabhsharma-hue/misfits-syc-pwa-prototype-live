@@ -1,0 +1,7 @@
+:HL["/misfits-syc-pwa-prototype-live/_next/static/media/5c86501b1e87bbd9-s.p.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/media/abe70492619df2b5-s.p.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/media/c1f9f7fb94654999-s.p.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/media/c44e96b6632c6d83-s.p.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/css/5acad589dcbcfdb1.css","style"]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/css/1d0027422222cb57.css","style"]
+0:{"buildId":"XZQiqm2j0spWchnJX3CP3","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"start-your-club","paramType":null,"paramKey":"start-your-club","hasRuntimePrefetch":false,"slots":{"children":{"name":"calendly-preview","paramType":null,"paramKey":"calendly-preview","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

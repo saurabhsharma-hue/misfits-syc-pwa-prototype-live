@@ -1,0 +1,11 @@
+1:"$Sreact.fragment"
+2:I[8064,[],"ClientPageRoot"]
+3:I[4807,["5217","static/chunks/5217-d8efb3aef59d17d7.js","5616","static/chunks/5616-b3ef6df38353461d.js","6640","static/chunks/6640-139ce63513e2ac28.js","8989","static/chunks/8989-54238492ece0e163.js","1000","static/chunks/1000-19662d4f45483401.js","4007","static/chunks/4007-cfacdb3a0eaa8472.js","8380","static/chunks/app/start-your-club/event-fields-preview/page-9385aa92a1ed1503.js"],"default"]
+6:I[7116,[],"OutletBoundary"]
+7:"$Sreact.suspense"
+:HL["/misfits-syc-pwa-prototype-live/_next/static/css/1d0027422222cb57.css","style"]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/css/d7703550943f3f3d.css","style"]
+0:{"buildId":"XZQiqm2j0spWchnJX3CP3","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","link","0",{"rel":"stylesheet","href":"/misfits-syc-pwa-prototype-live/_next/static/css/1d0027422222cb57.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/misfits-syc-pwa-prototype-live/_next/static/css/d7703550943f3f3d.css","precedence":"next"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:{}
+8:null

@@ -1,0 +1,46 @@
+1:"$Sreact.fragment"
+3:I[3129,["5217","static/chunks/5217-d8efb3aef59d17d7.js","4357","static/chunks/4357-b3815fbed71432fe.js","3763","static/chunks/3763-337176a17e083183.js","7177","static/chunks/app/layout-d335c6ed37e7349e.js"],""]
+4:I[165,["5217","static/chunks/5217-d8efb3aef59d17d7.js","4357","static/chunks/4357-b3815fbed71432fe.js","3763","static/chunks/3763-337176a17e083183.js","7177","static/chunks/app/layout-d335c6ed37e7349e.js"],"QueryProvider"]
+5:I[6170,["5217","static/chunks/5217-d8efb3aef59d17d7.js","4357","static/chunks/4357-b3815fbed71432fe.js","3763","static/chunks/3763-337176a17e083183.js","7177","static/chunks/app/layout-d335c6ed37e7349e.js"],"AuthProvider"]
+6:I[5429,["5217","static/chunks/5217-d8efb3aef59d17d7.js","4357","static/chunks/4357-b3815fbed71432fe.js","3763","static/chunks/3763-337176a17e083183.js","7177","static/chunks/app/layout-d335c6ed37e7349e.js"],"default"]
+7:I[505,[],""]
+8:I[6589,[],""]
+:HL["/misfits-syc-pwa-prototype-live/_next/static/css/5acad589dcbcfdb1.css","style"]
+2:T897,
+              (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener banner closeBanner closeJourney data deepview deepviewCta first init link logout removeListener setBranchViewData setIdentity track trackCommerceEvent logEvent disableTracking getBrowserFingerprintId crossPlatformIds lastAttributedTouchData setAPIResponseCallback qrCode setRequestMetaData setAPIUrl getAPIUrl setDMAParamsForEEA".split(" "), 0);
+
+              // Initialize Branch.io and handle dynamic title (matches Flutter PWA)
+              branch.init('key_live_pwc1xR1eGzgNYw39Wx4bPgoirrnnXURu', function(err, data) {
+                if (!err && data) {
+                  // Extract title from branch data and update page title
+                  updateTitleFromBranchData(data);
+                }
+              });
+
+              // Function to update title based on Branch data (matches Flutter PWA)
+              function updateTitleFromBranchData(data) {
+                var newTitle = null;
+
+                if (data) {
+                  // Direct title from BranchUniversalObject
+                  if (data.title) {
+                    newTitle = data.title;
+                  }
+                  // Custom metadata from Branch link generation
+                  else if (data.clubName && data.type === 'club') {
+                    newTitle = data.clubName + " - Misfits";
+                  }
+                  else if (data.clubName && data.type === 'event') {
+                    newTitle = data.clubName + " Event - Misfits";
+                  }
+                  else if (data.clubName && data.type === 'invite') {
+                    newTitle = "Join " + data.clubName + " - Misfits";
+                  }
+                }
+
+                if (!newTitle) return;
+
+                // Update the page title only when Branch has specific metadata.
+                document.title = newTitle;
+              }
+            0:{"buildId":"XZQiqm2j0spWchnJX3CP3","rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/misfits-syc-pwa-prototype-live/_next/static/css/5acad589dcbcfdb1.css","precedence":"next"}]],["$","html",null,{"lang":"en","children":[["$","head",null,{"children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{"src":"https://checkout.razorpay.com/v1/checkout.js","strategy":"afterInteractive"}]]}],["$","body",null,{"className":"__variable_2b6a59 antialiased","suppressHydrationWarning":true,"children":["$","$L4",null,{"children":["$","$L5",null,{"children":[["$","$L6",null,{}],["$","$L7",null,{"parallelRouterKey":"children","template":["$","$L8",null,{}]}]]}]}]}]]}]]}],"loading":null,"isPartial":false}

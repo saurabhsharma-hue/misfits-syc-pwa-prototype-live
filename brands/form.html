@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner With Misfits | Brand Integration Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF6F0;
+    --bg-warm: #F3EDE3;
+    --bg-card: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-secondary: #5C5548;
+    --text-muted: #8C836F;
+    --accent: #1B3A6B;
+    --accent-hover: #142D54;
+    --accent-light: rgba(27, 58, 107, 0.08);
+    --accent-mid: rgba(27, 58, 107, 0.15);
+    --border: #E4DDD2;
+    --border-light: #EDE8E0;
+    --green: #34A853;
+    --red: #D94444;
+    --shadow-sm: 0 2px 8px rgba(26,26,26,0.04);
+    --shadow-md: 0 8px 32px rgba(26,26,26,0.06);
+    --shadow-lg: 0 16px 48px rgba(26,26,26,0.08);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    padding: 16px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg);
+  }
+  .nav-logo img { height: 40px; width: auto; }
+  .nav-back {
+    color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px; transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--accent); }
+
+  /* LAYOUT */
+  .page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 48px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* LEFT SIDE */
+  .form-intro { position: sticky; top: 40px; }
+  .form-intro .section-label {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 2.5px;
+    color: var(--accent); font-weight: 700; margin-bottom: 14px;
+  }
+  .form-intro h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 3.5vw, 48px);
+    line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px;
+  }
+  .form-intro h1 em { color: var(--accent); font-style: italic; }
+  .form-intro p {
+    font-size: 17px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 40px;
+  }
+
+  .trust-points { display: flex; flex-direction: column; gap: 16px; }
+  .trust-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; color: var(--text-secondary); line-height: 1.6;
+  }
+  .trust-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--accent-light); display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* FORM CARD */
+  .form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 48px 40px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .form-step-indicator {
+    display: flex; gap: 8px; margin-bottom: 36px;
+  }
+  .step-dot {
+    height: 4px; border-radius: 4px; flex: 1; background: var(--border);
+    transition: background 0.4s ease;
+  }
+  .step-dot.active { background: var(--accent); }
+  .step-dot.done { background: var(--green); }
+
+  .form-step { display: none; animation: fadeIn 0.4s ease; }
+  .form-step.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; letter-spacing: -0.5px; margin-bottom: 6px;
+  }
+  .step-subtitle {
+    font-size: 14px; color: var(--text-muted); margin-bottom: 28px;
+  }
+
+  /* FORM ELEMENTS */
+  .field { margin-bottom: 22px; }
+  .field label {
+    display: block; font-size: 14px; font-weight: 600; color: var(--text-primary);
+    margin-bottom: 7px;
+  }
+  .field label .required { color: var(--red); margin-left: 2px; }
+  .field input, .field textarea, .field select {
+    width: 100%; padding: 13px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 15px;
+    color: var(--text-primary); background: var(--bg);
+    transition: all 0.3s ease; outline: none;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+  .field input::placeholder, .field textarea::placeholder {
+    color: var(--text-muted); font-size: 14px;
+  }
+  .field textarea { resize: vertical; min-height: 100px; }
+  .field select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238C836F' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+  .field .hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+  /* CHECKBOX GROUP */
+  .checkbox-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .checkbox-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    cursor: pointer; transition: all 0.2s ease; user-select: none;
+    font-size: 14px; color: var(--text-secondary);
+  }
+  .checkbox-item:hover { border-color: var(--accent); background: var(--accent-light); }
+  .checkbox-item.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 600; }
+  .checkbox-item input { display: none; }
+  .check-box {
+    width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 5px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.2s ease; font-size: 12px; color: transparent;
+  }
+  .checkbox-item.selected .check-box {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+
+  /* VIBE SELECTOR */
+  .vibe-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  }
+  .vibe-option {
+    padding: 16px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    cursor: pointer; transition: all 0.2s ease; text-align: center; user-select: none;
+  }
+  .vibe-option:hover { border-color: var(--accent); background: var(--accent-light); }
+  .vibe-option.selected { border-color: var(--accent); background: var(--accent-light); }
+  .vibe-option input { display: none; }
+  .vibe-emoji { font-size: 24px; margin-bottom: 6px; }
+  .vibe-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .vibe-option.selected .vibe-label { color: var(--accent); }
+
+  /* BUTTONS */
+  .form-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-light);
+  }
+  .btn-next, .btn-submit {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff; padding: 14px 28px; border-radius: 100px;
+    font-weight: 600; font-size: 15px; border: none; cursor: pointer;
+    transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(27,58,107,0.25);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-next:hover, .btn-submit:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(27,58,107,0.3); }
+  .btn-next:disabled, .btn-submit:disabled { background: var(--text-muted); cursor: not-allowed; opacity: 0.6; }
+  .btn-back {
+    background: none; border: none; color: var(--text-muted); font-size: 14px;
+    cursor: pointer; font-weight: 500; transition: color 0.3s; font-family: 'DM Sans', sans-serif;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .btn-back:hover { color: var(--text-primary); }
+
+  /* SUCCESS STATE */
+  .success-state {
+    display: none; text-align: center; padding: 40px 20px;
+    animation: fadeIn 0.5s ease;
+  }
+  .success-state.active { display: block; }
+  .success-icon {
+    width: 80px; height: 80px; border-radius: 50%; background: rgba(52,168,83,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 24px;
+  }
+  .success-state h2 {
+    font-family: 'Playfair Display', serif; font-size: 28px;
+    letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+  .success-state p { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 380px; margin: 0 auto; }
+
+  /* ERROR MESSAGE */
+  .error-message {
+    background: rgba(217, 68, 68, 0.1);
+    border: 1px solid var(--red);
+    color: var(--red);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    margin-bottom: 20px;
+    display: none;
+  }
+  .error-message.visible { display: block; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .page-wrapper { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px 60px; }
+    .form-intro { position: static; }
+    nav { padding: 12px 20px; }
+    .form-card { padding: 32px 24px; }
+    .checkbox-grid { grid-template-columns: 1fr; }
+    .vibe-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="https://framerusercontent.com/images/jefqhXp4VWFB9CVH3iOwEl9Isw.png?scale-down-to=512" alt="Misfits Logo">
+  </a>
+  <a href="index.html" class="nav-back">← Back to Misfits for Brands</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- LEFT: INTRO -->
+  <div class="form-intro">
+    <div class="section-label">Brand Partnership</div>
+    <h1>Let's build something <em>together</em></h1>
+    <p>Tell us about your brand and what excites you. We'll get back within 48 hours with a tailored integration plan.</p>
+
+    <div class="trust-points">
+      <div class="trust-item">
+        <div class="trust-icon">🎯</div>
+        <div><strong>120K+ community members</strong> across 140+ active clubs in Delhi NCR, Bangalore & Jaipur</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">⚡</div>
+        <div><strong>800 meetups every month</strong> with 10,000+ people attending — real, in-person moments</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">💬</div>
+        <div><strong>Zero media wastage</strong> — every interaction is with a real person who chose to be there</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">🤝</div>
+        <div><strong>48-hour turnaround</strong> — we'll respond with a custom integration proposal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="form-card">
+    <div class="form-step-indicator">
+      <div class="step-dot active" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+    </div>
+
+    <div class="error-message" id="error-message"></div>
+
+    <!-- STEP 1: Brand Info -->
+    <div class="form-step active" id="step-1">
+      <div class="step-title">About your brand</div>
+      <div class="step-subtitle">Let's start with the basics</div>
+
+      <div class="field">
+        <label>Brand Name <span class="required">*</span></label>
+        <input type="text" id="brand-name" placeholder="e.g. Red Bull, Decathlon, Chai Point" required>
+      </div>
+
+      <div class="field">
+        <label>Brand Website</label>
+        <input type="url" id="brand-website" placeholder="https://yourbrand.com">
+      </div>
+
+      <div class="field">
+        <label>What does your brand do? <span class="required">*</span></label>
+        <textarea id="brand-desc" placeholder="A quick line about your brand, product, or service"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <div></div>
+        <button class="btn-next" onclick="goToStep(2)">Next: Your Details →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: POC + Activities -->
+    <div class="form-step" id="step-2">
+      <div class="step-title">Point of contact</div>
+      <div class="step-subtitle">Who should we reach out to?</div>
+
+      <div class="field">
+        <label>Your Name <span class="required">*</span></label>
+        <input type="text" id="poc-name" placeholder="Full name" required>
+      </div>
+
+      <div class="field">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" id="poc-email" placeholder="you@company.com" required>
+      </div>
+
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="tel" id="poc-phone" placeholder="+91 98765 43210">
+      </div>
+
+      <div class="field">
+        <label>Your Role</label>
+        <input type="text" id="poc-role" placeholder="e.g. Marketing Manager, Brand Lead">
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-back" onclick="goToStep(1)">← Back</button>
+        <button class="btn-next" onclick="goToStep(3)">Next: Preferences →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Activities + Vibe -->
+    <div class="form-step" id="step-3">
+      <div class="step-title">Integration preferences</div>
+      <div class="step-subtitle">Help us understand the fit</div>
+
+      <div class="field">
+        <label>Which activities interest you? <span class="required">*</span></label>
+        <div class="hint" style="margin-bottom: 10px;">Select all that feel relevant to your brand</div>
+        <div class="checkbox-grid">
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Board Gaming">
+            <div class="check-box">✓</div> Board Gaming
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Hiking">
+            <div class="check-box">✓</div> Hiking
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Music">
+            <div class="check-box">✓</div> Music
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Cricket">
+            <div class="check-box">✓</div> Cricket
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Running">
+            <div class="check-box">✓</div> Running
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Dance">
+            <div class="check-box">✓</div> Dance
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Art">
+            <div class="check-box">✓</div> Art
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Books">
+            <div class="check-box">✓</div> Books
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Social Deduction">
+            <div class="check-box">✓</div> Social Deduction
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Football">
+            <div class="check-box">✓</div> Football
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Open to all">
+            <div class="check-box">✓</div> Open to all
+          </label>
+          <label class="checkbox-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="activities" value="Not sure yet">
+            <div class="check-box">✓</div> Not sure yet
+          </label>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top: 28px;">
+        <label>What's your brand's vibe? <span class="required">*</span></label>
+        <div class="hint" style="margin-bottom: 10px;">Pick the energy that best represents your brand</div>
+        <div class="vibe-grid">
+          <div class="vibe-option" onclick="selectVibe(this, 'High Energy & Sporty')">
+            <input type="radio" name="vibe" value="High Energy & Sporty">
+            <div class="vibe-emoji">⚡</div>
+            <div class="vibe-label">High Energy & Sporty</div>
+          </div>
+          <div class="vibe-option" onclick="selectVibe(this, 'Chill & Creative')">
+            <input type="radio" name="vibe" value="Chill & Creative">
+            <div class="vibe-emoji">🎨</div>
+            <div class="vibe-label">Chill & Creative</div>
+          </div>
+          <div class="vibe-option" onclick="selectVibe(this, 'Premium & Lifestyle')">
+            <input type="radio" name="vibe" value="Premium & Lifestyle">
+            <div class="vibe-emoji">✨</div>
+            <div class="vibe-label">Premium & Lifestyle</div>
+          </div>
+          <div class="vibe-option" onclick="selectVibe(this, 'Fun & Quirky')">
+            <input type="radio" name="vibe" value="Fun & Quirky">
+            <div class="vibe-emoji">🎪</div>
+            <div class="vibe-label">Fun & Quirky</div>
+          </div>
+          <div class="vibe-option" onclick="selectVibe(this, 'Community & Social')">
+            <input type="radio" name="vibe" value="Community & Social">
+            <div class="vibe-emoji">🤝</div>
+            <div class="vibe-label">Community & Social</div>
+          </div>
+          <div class="vibe-option" onclick="selectVibe(this, 'Health & Wellness')">
+            <input type="radio" name="vibe" value="Health & Wellness">
+            <div class="vibe-emoji">🧘</div>
+            <div class="vibe-label">Health & Wellness</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top: 28px;">
+        <label>Anything else you'd like us to know?</label>
+        <textarea id="extra-notes" placeholder="Budget range, timeline, specific clubs you liked, ideas you have in mind..."></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-back" onclick="goToStep(2)">← Back</button>
+        <button class="btn-submit" id="submit-btn" onclick="submitForm()">Submit Partnership Request →</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-state" id="success">
+      <div class="success-icon">🎉</div>
+      <h2>We've got your details!</h2>
+      <p>Our partnerships team will review your submission and get back to you within 48 hours with a tailored integration plan.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function goToStep(step) {
+    // Basic validation
+    if (step > currentStep) {
+      if (currentStep === 1) {
+        const brandName = document.getElementById('brand-name').value.trim();
+        const brandDesc = document.getElementById('brand-desc').value.trim();
+        if (!brandName || !brandDesc) {
+          shakeField(!brandName ? 'brand-name' : 'brand-desc');
+          return;
+        }
+      }
+      if (currentStep === 2) {
+        const pocName = document.getElementById('poc-name').value.trim();
+        const pocEmail = document.getElementById('poc-email').value.trim();
+        if (!pocName || !pocEmail) {
+          shakeField(!pocName ? 'poc-name' : 'poc-email');
+          return;
+        }
+      }
+    }
+
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    document.getElementById('step-' + step).classList.add('active');
+
+    // Update dots
+    for (let i = 1; i <= 3; i++) {
+      const dot = document.getElementById('dot-' + i);
+      dot.classList.remove('active', 'done');
+      if (i < step) dot.classList.add('done');
+      if (i === step) dot.classList.add('active');
+    }
+
+    currentStep = step;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleCheck(el) {
+    // Let the browser's default label behavior handle input.checked
+    // Just sync the visual class after the default action fires
+    setTimeout(() => {
+      const input = el.querySelector('input');
+      el.classList.toggle('selected', input.checked);
+    }, 0);
+  }
+
+  function selectVibe(el, value) {
+    document.querySelectorAll('.vibe-option').forEach(v => v.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  }
+
+  function shakeField(id) {
+    const el = document.getElementById(id);
+    el.style.borderColor = '#D94444';
+    el.style.animation = 'shake 0.4s ease';
+    el.focus();
+    setTimeout(() => {
+      el.style.borderColor = '';
+      el.style.animation = '';
+    }, 600);
+  }
+
+  function showError(message) {
+    const errorEl = document.getElementById('error-message');
+    errorEl.textContent = message;
+    errorEl.classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function hideError() {
+    const errorEl = document.getElementById('error-message');
+    errorEl.classList.remove('visible');
+  }
+
+  async function submitForm() {
+    hideError();
+
+    // Check at least one activity selected
+    const checked = document.querySelectorAll('input[name="activities"]:checked');
+    const vibeSelected = document.querySelector('input[name="vibe"]:checked');
+
+    if (checked.length === 0) {
+      showError('Please select at least one activity that interests you.');
+      return;
+    }
+    if (!vibeSelected) {
+      showError('Please select your brand\'s vibe.');
+      return;
+    }
+
+    // Collect all data
+    const formData = {
+      brandName: document.getElementById('brand-name').value,
+      brandWebsite: document.getElementById('brand-website').value,
+      brandDescription: document.getElementById('brand-desc').value,
+      pocName: document.getElementById('poc-name').value,
+      pocEmail: document.getElementById('poc-email').value,
+      pocPhone: document.getElementById('poc-phone').value,
+      pocRole: document.getElementById('poc-role').value,
+      activities: Array.from(checked).map(c => c.value),
+      brandVibe: vibeSelected.value,
+      additionalNotes: document.getElementById('extra-notes').value,
+    };
+
+    // Disable submit button
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      // Submit to backend API
+      const response = await fetch('/api/brand-partnership', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form. Please try again.');
+      }
+
+      // Show success
+      document.getElementById('step-3').classList.remove('active');
+      document.querySelector('.form-step-indicator').style.display = 'none';
+      document.getElementById('success').classList.add('active');
+
+      // Update all dots to done
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById('dot-' + i).classList.add('done');
+      }
+    } catch (error) {
+      showError(error.message || 'Something went wrong. Please try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Partnership Request →';
+    }
+  }
+</script>
+
+<style>
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+  }
+</style>
+
+</body>
+</html>

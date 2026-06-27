@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Misfits Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #fcfcfd;
+    color: #22262b;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .form-container {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 4px;
+    background: rgba(34, 38, 43, 0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #fabb22;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+  }
+
+  /* Slide container */
+  .slides {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .slide.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+  .slide.exited {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  .question-number {
+    font-size: 0.85rem;
+    color: #fabb22;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .question-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 2rem;
+    color: #22262b;
+  }
+
+  /* Multiple choice */
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 2px solid rgba(34, 38, 43, 0.12);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .choice:hover {
+    border-color: rgba(250, 187, 34, 0.6);
+    background: rgba(250, 187, 34, 0.06);
+  }
+  .choice.selected {
+    border-color: #fabb22;
+    background: rgba(250, 187, 34, 0.1);
+  }
+  .choice-key {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 2px solid rgba(34, 38, 43, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(34, 38, 43, 0.4);
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+  .choice.selected .choice-key {
+    background: #fabb22;
+    border-color: #fabb22;
+    color: #22262b;
+  }
+  .choice-label {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  /* Text input — auto-growing single-line start */
+  .text-input-wrap {
+    position: relative;
+  }
+  .text-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(34, 38, 43, 0.15);
+    color: #22262b;
+    font-size: 1.15rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    padding: 0.5rem 0;
+    resize: none;
+    outline: none;
+    line-height: 1.5;
+    overflow: hidden;
+    height: auto;
+    transition: border-color 0.3s ease;
+    field-sizing: content;
+  }
+  .text-input:focus {
+    border-color: #fabb22;
+  }
+  .text-input::placeholder {
+    color: rgba(34, 38, 43, 0.3);
+  }
+
+  /* Navigation */
+  .nav {
+    padding: 1rem 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.85rem 2rem;
+    border: none;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-next {
+    background: #fabb22;
+    color: #22262b;
+    border-radius: 365px;
+    margin-left: auto;
+    padding: 0.85rem 2.5rem;
+  }
+  .btn-next:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  .btn-next:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(250, 187, 34, 0.35);
+  }
+  .btn-next:not(:disabled):active {
+    transform: scale(0.97);
+  }
+  .btn-back {
+    background: transparent;
+    color: rgba(34, 38, 43, 0.4);
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+  }
+  .btn-back:hover {
+    color: #22262b;
+  }
+
+  /* Thank you slide */
+  .thankyou {
+    text-align: center;
+  }
+  .thankyou .checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #fabb22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    color: #22262b;
+  }
+  .thankyou h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #22262b;
+  }
+  .thankyou p {
+    font-size: 1.1rem;
+    color: rgba(34, 38, 43, 0.5);
+  }
+
+  /* Close button */
+  .close-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(34, 38, 43, 0.08);
+    color: rgba(34, 38, 43, 0.5);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s ease;
+  }
+  .close-btn:hover {
+    background: rgba(34, 38, 43, 0.12);
+    color: #22262b;
+  }
+
+  /* Confirmation dialog */
+  .dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1.5rem;
+  }
+  .dialog-overlay.visible { display: flex; }
+  .dialog {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.75rem;
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+  }
+  .dialog h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #22262b;
+  }
+  .dialog p {
+    font-size: 0.95rem;
+    color: rgba(34, 38, 43, 0.6);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
+  .dialog-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .dialog-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 365px;
+    border: none;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .dialog-btn-cancel {
+    background: rgba(34, 38, 43, 0.08);
+    color: #22262b;
+  }
+  .dialog-btn-exit {
+    background: #22262b;
+    color: #fff;
+  }
+
+  /* Keyboard hint */
+  .hint {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: rgba(34, 38, 43, 0.2);
+  }
+
+  /* Error toast */
+  .error-toast {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    right: 60px;
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    z-index: 30;
+    display: none;
+    word-break: break-word;
+  }
+  .error-toast.visible { display: block; }
+
+  @media (min-width: 600px) {
+    .slide { padding: 3rem; max-width: 640px; margin: 0 auto; }
+    .question-text { font-size: 1.75rem; }
+    .nav { max-width: 640px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+  <button class="close-btn" id="closeBtn" onclick="confirmExit()">&#10005;</button>
+  <div class="error-toast" id="errorToast"></div>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <div class="slides" id="slides">
+
+    <!-- Q1: Multiple choice -->
+    <div class="slide active" data-index="0">
+      <span class="question-number">1 / 4</span>
+      <h1 class="question-text">How would you feel if you could no longer use Misfits?</h1>
+      <div class="choices">
+        <div class="choice" data-value="Very disappointed" onclick="selectChoice(this)">
+          <span class="choice-key">A</span>
+          <span class="choice-label">Very disappointed</span>
+        </div>
+        <div class="choice" data-value="Somewhat disappointed" onclick="selectChoice(this)">
+          <span class="choice-key">B</span>
+          <span class="choice-label">Somewhat disappointed</span>
+        </div>
+        <div class="choice" data-value="Not disappointed" onclick="selectChoice(this)">
+          <span class="choice-key">C</span>
+          <span class="choice-label">Not disappointed</span>
+        </div>
+      </div>
+      <p class="hint">Tap to select</p>
+    </div>
+
+    <!-- Q2: Open text -->
+    <div class="slide" data-index="1">
+      <span class="question-number">2 / 4</span>
+      <h1 class="question-text">What type of people do you think would most benefit from Misfits?</h1>
+      <div class="text-input-wrap">
+        <textarea class="text-input" id="q2" rows="1" placeholder="Type your answer here..." oninput="autoGrow(this); checkText()"></textarea>
+      </div>
+    </div>
+
+    <!-- Q3: Open text -->
+    <div class="slide" data-index="2">
+      <span class="question-number">3 / 4</span>
+      <h1 class="question-text">What is the main benefit you receive from Misfits?</h1>
+      <div class="text-input-wrap">
+        <textarea class="text-input" id="q3" rows="1" placeholder="Type your answer here..." oninput="autoGrow(this); checkText()"></textarea>
+      </div>
+    </div>
+
+    <!-- Q4: Open text -->
+    <div class="slide" data-index="3">
+      <span class="question-number">4 / 4</span>
+      <h1 class="question-text">How can we improve Misfits for you?</h1>
+      <div class="text-input-wrap">
+        <textarea class="text-input" id="q4" rows="1" placeholder="Type your answer here..." oninput="autoGrow(this); checkText()"></textarea>
+      </div>
+    </div>
+
+    <!-- Thank you -->
+    <div class="slide" data-index="4">
+      <div class="thankyou">
+        <div class="checkmark">&#10003;</div>
+        <h2>Thank you!</h2>
+        <p>Your feedback helps us build something amazing.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav" id="nav">
+    <button class="btn btn-back" id="backBtn" onclick="goBack()" style="visibility:hidden">Back</button>
+    <button class="btn btn-next" id="nextBtn" onclick="goNext()" disabled>OK</button>
+  </div>
+</div>
+
+<div class="dialog-overlay" id="exitDialog">
+  <div class="dialog">
+    <h3>Leave survey?</h3>
+    <p>Your progress will be saved. You can finish it later.</p>
+    <div class="dialog-actions">
+      <button class="dialog-btn dialog-btn-cancel" onclick="dismissDialog()">Continue</button>
+      <button class="dialog-btn dialog-btn-exit" onclick="exitSurvey()">Exit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // === CONFIG ===
+  // Replace with your deployed Google Apps Script URL
+  const SHEETS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzNuTFTlFx72A_Mi0zVLjqfCD7TwXneTm-JtuOHi4k-8BZii1Mw6rPZdcx48OQf1l7wtA/exec';
+  const MISFITS_API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? '/api/v1'
+    : 'https://prod.misfits.net.in/api/v1';
+  let _startedReported = false;
+
+  // === STATE ===
+  let current = 0;
+  const total = 4;
+  const answers = {};
+  const slides = document.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backBtn');
+  const nav = document.getElementById('nav');
+
+  // === USER DATA (token from localStorage, injected by Flutter) ===
+  function parseJwt(token) {
+    try {
+      const part = (token || '').split('.')[1] || '';
+      const padded = part + '='.repeat((4 - part.length % 4) % 4);
+      const json = atob(padded.replace(/-/g, '+').replace(/_/g, '/'));
+      return JSON.parse(json);
+    } catch { return {}; }
+  }
+
+  function getUser() {
+    try {
+      // Try URL parameter first (iOS fallback for localStorage issues)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlToken = urlParams.get('token');
+      if (urlToken) {
+        const claims = parseJwt(urlToken);
+        const userId = claims.USER_ID_KEY != null ? String(claims.USER_ID_KEY) : '';
+        return {
+          token: urlToken,
+          userId: userId,
+          firstName: claims.FIRST_NAME || '',
+          lastName: claims.LAST_NAME || '',
+          phone: claims.PHONE || '',
+        };
+      }
+
+      // Fallback to localStorage (injected by Flutter)
+      const stored = JSON.parse(localStorage.getItem('SYC_USER') || '{}');
+      const token = stored.token || '';
+      if (!token) return {};
+      const claims = parseJwt(token);
+      const claimUserId = claims.USER_ID_KEY != null ? String(claims.USER_ID_KEY) : '';
+      const injectedUserId =
+        stored.userId != null && String(stored.userId) !== '' ? String(stored.userId) : '';
+      return {
+        token,
+        userId: injectedUserId || claimUserId,
+        firstName: stored.firstName || '',
+        lastName: stored.lastName || '',
+        phone: stored.phone || '',
+      };
+    } catch { return {}; }
+  }
+
+  let _tokenReadyResolved = false;
+  let _tokenReadyResolve;
+  const _tokenReady = new Promise(r => { _tokenReadyResolve = r; });
+  function _markTokenReady() {
+    if (_tokenReadyResolved) return;
+    _tokenReadyResolved = true;
+    _tokenReadyResolve();
+  }
+  if (getUser().token) _markTokenReady();
+  window.addEventListener('sycTokenInjected', _markTokenReady);
+
+  function awaitTokenReady(timeoutMs) {
+    if (_tokenReadyResolved) return Promise.resolve();
+    return Promise.race([
+      _tokenReady,
+      new Promise(r => setTimeout(r, timeoutMs || 3000)),
+    ]);
+  }
+
+  // === PROGRESS SAVE/RESTORE ===
+  function saveProgress() {
+    // Save current answers + text field values
+    for (let i = 1; i < total; i++) {
+      const ta = slides[i].querySelector('textarea');
+      if (ta && ta.value.trim()) answers[i] = ta.value.trim();
+    }
+    localStorage.setItem('survey_progress', JSON.stringify({ current, answers }));
+    // Notify Flutter that survey is in progress
+    if (window.FlutterBridge) FlutterBridge.postMessage('survey_in_progress');
+    reportSurveyStartedOnce();
+    fetchSurveyUserProfile();
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorToast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('visible');
+    clearTimeout(showError._t);
+    showError._t = setTimeout(() => el.classList.remove('visible'), 6000);
+  }
+
+  async function postPmfStatus(path) {
+    await awaitTokenReady();
+    const token = getUser().token;
+    if (!token) {
+      console.warn('PMF API ' + path + ' skipped: no auth token available');
+      return false;
+    }
+    const maxAttempts = 3;
+    let lastDetail = '';
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        const res = await fetch(MISFITS_API_BASE + path, {
+          method: 'POST',
+          keepalive: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+          },
+          body: '{}',
+        });
+        if (res.ok) return true;
+        let body = '';
+        try { body = await res.text(); } catch (_) {}
+        lastDetail = res.status + (body ? ': ' + body.slice(0, 200) : '');
+        console.warn('PMF API ' + path + ' attempt ' + attempt + ' -> ' + lastDetail);
+        if (res.status === 401 || res.status === 403 || res.status === 404) break;
+      } catch (e) {
+        lastDetail = (e && e.message) ? e.message : String(e);
+        console.warn('PMF API ' + path + ' attempt ' + attempt + ' threw:', e);
+      }
+      if (attempt < maxAttempts) {
+        await new Promise(r => setTimeout(r, 300 * attempt));
+      }
+    }
+    console.warn('PMF API ' + path + ' failed after retries: ' + lastDetail);
+    showError("Couldn't reach our servers. Your progress is saved — please check your internet and reopen the survey to finish.");
+    return false;
+  }
+
+  let _startedInFlight = null;
+  function reportSurveyStartedOnce() {
+    if (_startedReported) return Promise.resolve(true);
+    if (_startedInFlight) return _startedInFlight;
+    _startedInFlight = postPmfStatus('/users/survey/started').then(ok => {
+      if (ok) _startedReported = true;
+      _startedInFlight = null;
+      return ok;
+    });
+    return _startedInFlight;
+  }
+
+  async function reportSurveySubmitted() {
+    return postPmfStatus('/users/survey/submitted');
+  }
+
+  function restoreProgress() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('survey_progress'));
+      if (!saved) return;
+      // Restore answers
+      Object.assign(answers, saved.answers);
+      // Restore Q1 selection
+      if (answers[0]) {
+        const choice = document.querySelector('.choice[data-value="' + answers[0] + '"]');
+        if (choice) choice.classList.add('selected');
+      }
+      // Restore text fields
+      for (let i = 1; i < total; i++) {
+        if (answers[i]) {
+          const ta = slides[i].querySelector('textarea');
+          if (ta) { ta.value = answers[i]; autoGrow(ta); }
+        }
+      }
+      // Jump to saved slide
+      if (saved.current > 0) {
+        for (let i = 0; i < saved.current; i++) {
+          slides[i].classList.remove('active');
+          slides[i].classList.add('exited');
+        }
+        current = saved.current;
+        slides[current].classList.add('active');
+      }
+      updateProgress();
+      updateNav();
+    } catch {}
+  }
+
+  let _profileCache = null;
+  let _profileInFlight = null;
+  function fetchSurveyUserProfile() {
+    if (_profileCache) return Promise.resolve(_profileCache);
+    if (_profileInFlight) return _profileInFlight;
+    _profileInFlight = (async () => {
+      await awaitTokenReady();
+      const token = getUser().token;
+      if (!token) return {};
+      try {
+        const res = await fetch(MISFITS_API_BASE + '/users/survey/me', {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+        if (!res.ok) {
+          console.warn('GET /users/survey/me returned ' + res.status);
+          return {};
+        }
+        const data = await res.json();
+        _profileCache = data;
+        return data;
+      } catch (e) {
+        console.warn('GET /users/survey/me failed:', e);
+        return {};
+      } finally {
+        _profileInFlight = null;
+      }
+    })();
+    return _profileInFlight;
+  }
+
+  // === SUBMIT TO GOOGLE SHEETS ===
+  async function submitToSheets() {
+    await awaitTokenReady();
+    const user = getUser();
+    const profile = await Promise.race([
+      fetchSurveyUserProfile(),
+      new Promise(r => setTimeout(() => r({}), 2000)),
+    ]);
+    const payload = {
+      timestamp: new Date().toISOString(),
+      userId: user.userId || (profile.userId != null ? String(profile.userId) : ''),
+      name: ((user.firstName || profile.firstName || '') + ' ' +
+        (user.lastName || profile.lastName || '')).trim(),
+      phone: user.phone || profile.phone || '',
+      q1_disappointment: answers[0] || '',
+      q2_who_benefits: answers[1] || '',
+      q3_main_benefit: answers[2] || '',
+      q4_improvement: answers[3] || ''
+    };
+    try {
+      await fetch(SHEETS_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      console.error('Submit failed:', e);
+    }
+  }
+
+  // === UI HELPERS ===
+  function autoGrow(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+
+  const slidesEl = document.getElementById('slides');
+  function resetSlidesScroll() {
+    // .slides has overflow:hidden, which blocks user scroll but NOT programmatic scroll.
+    // Focusing an off-screen textarea (during slide transitions) makes the browser scroll
+    // it into view by scrolling .slides, pushing the active slide above the viewport.
+    if (slidesEl && slidesEl.scrollTop !== 0) slidesEl.scrollTop = 0;
+  }
+
+  function focusInput(ta) {
+    if (!ta) return;
+    try { ta.focus({ preventScroll: true }); } catch (_) { ta.focus(); }
+    // Safari < 15.4 ignores preventScroll — reset the container as a fallback.
+    resetSlidesScroll();
+  }
+
+  function focusActiveInput() {
+    focusInput(slides[current]?.querySelector('textarea'));
+  }
+
+  function updateProgress() {
+    progress.style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  function updateNav() {
+    backBtn.style.visibility = current > 0 && current < total ? 'visible' : 'hidden';
+    if (current >= total) {
+      nav.style.display = 'none';
+    } else {
+      nav.style.display = 'flex';
+      nextBtn.textContent = current === total - 1 ? 'Submit' : 'OK';
+    }
+    validateCurrent();
+  }
+
+  function validateCurrent() {
+    if (current === 0) {
+      nextBtn.disabled = !answers[0];
+    } else if (current < total) {
+      const ta = slides[current].querySelector('textarea');
+      nextBtn.disabled = !ta || ta.value.trim().length === 0;
+    }
+  }
+
+  function selectChoice(el) {
+    el.parentElement.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[0] = el.dataset.value;
+    nextBtn.disabled = false;
+    focusInput(slides[current + 1]?.querySelector('textarea'));
+    setTimeout(goNext, 400);
+  }
+
+  function checkText() { validateCurrent(); }
+
+  async function goNext() {
+    if (nextBtn.disabled) return;
+    if (current > 0 && current < total) {
+      const ta = slides[current].querySelector('textarea');
+      if (ta) answers[current] = ta.value.trim();
+    }
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exited');
+    current++;
+    slides[current].classList.remove('exited');
+    slides[current].classList.add('active');
+    updateProgress();
+    updateNav();
+    focusActiveInput();
+
+    if (current === total) {
+      const [, submittedOk] = await Promise.all([submitToSheets(), reportSurveySubmitted()]);
+      if (submittedOk) localStorage.removeItem('survey_progress');
+      if (window.FlutterBridge) FlutterBridge.postMessage('survey_completed');
+    } else {
+      saveProgress();
+    }
+  }
+
+  function goBack() {
+    if (current <= 0) return;
+    slides[current].classList.remove('active');
+    slides[current].classList.remove('exited');
+    current--;
+    slides[current].classList.remove('exited');
+    slides[current].classList.add('active');
+    updateProgress();
+    updateNav();
+    focusActiveInput();
+    saveProgress();
+  }
+
+  // Keyboard support (desktop)
+  document.addEventListener('keydown', e => {
+    if (current === 0) {
+      const map = { a: 0, b: 1, c: 2 };
+      if (map[e.key.toLowerCase()] !== undefined) {
+        const choices = slides[0].querySelectorAll('.choice');
+        selectChoice(choices[map[e.key.toLowerCase()]]);
+      }
+    }
+    if (e.key === 'Enter' && !e.shiftKey && current > 0 && current < total) {
+      e.preventDefault();
+      goNext();
+    }
+  });
+
+  // Swipe support
+  let touchStartY = 0;
+  document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartY - e.changedTouches[0].clientY;
+    if (diff > 60 && !nextBtn.disabled) goNext();
+    if (diff < -60) goBack();
+  }, { passive: true });
+
+  // === EXIT CONFIRMATION ===
+  function confirmExit() {
+    if (current === 0 && !answers[0]) {
+      // Nothing answered yet, just close
+      if (window.FlutterBridge) FlutterBridge.postMessage('close');
+      return;
+    }
+    if (current >= total) {
+      // Already submitted, just close
+      if (window.FlutterBridge) FlutterBridge.postMessage('close');
+      return;
+    }
+    document.getElementById('exitDialog').classList.add('visible');
+  }
+
+  function dismissDialog() {
+    document.getElementById('exitDialog').classList.remove('visible');
+  }
+
+  async function exitSurvey() {
+    document.getElementById('exitDialog').classList.remove('visible');
+    saveProgress();
+    await Promise.race([
+      reportSurveyStartedOnce(),
+      new Promise(r => setTimeout(r, 2000)),
+    ]);
+    if (window.FlutterBridge) FlutterBridge.postMessage('close');
+  }
+
+  // Save when app goes to background or WebView closes
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && current > 0 && current < total) saveProgress();
+  });
+  window.addEventListener('pagehide', () => {
+    if (current > 0 && current < total) saveProgress();
+  });
+
+  // === INIT ===
+  restoreProgress();
+  updateProgress();
+</script>
+</body>
+</html>
