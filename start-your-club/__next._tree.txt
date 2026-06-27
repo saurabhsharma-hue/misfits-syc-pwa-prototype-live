@@ -13,4 +13,4 @@
 :HL["/misfits-syc-pwa-prototype-live/start-your-club/unhinged-black.png","image"]
 :HL["/misfits-syc-pwa-prototype-live/start-your-club/clubs-black.png","image"]
 :HL["/misfits-syc-pwa-prototype-live/images/mascot_logo.svg","image",{"type":"image/svg+xml"}]
-0:{"buildId":"XZQiqm2j0spWchnJX3CP3","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"start-your-club","paramType":null,"paramKey":"start-your-club","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
+0:{"buildId":"s3CIuxZlLsGcS_jtEfJb1","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"start-your-club","paramType":null,"paramKey":"start-your-club","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

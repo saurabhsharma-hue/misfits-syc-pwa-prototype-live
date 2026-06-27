@@ -3,5 +3,5 @@
 3:I[7116,[],"OutletBoundary"]
 4:"$Sreact.suspense"
 :HL["/misfits-syc-pwa-prototype-live/_next/static/css/e4ed8d39eb57b61f.css","style"]
-0:{"buildId":"XZQiqm2j0spWchnJX3CP3","rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","link","0",{"rel":"stylesheet","href":"/misfits-syc-pwa-prototype-live/_next/static/css/e4ed8d39eb57b61f.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"s3CIuxZlLsGcS_jtEfJb1","rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","link","0",{"rel":"stylesheet","href":"/misfits-syc-pwa-prototype-live/_next/static/css/e4ed8d39eb57b61f.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
 5:null
